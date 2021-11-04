@@ -32,6 +32,10 @@ Pod::Spec.new do |s|
         mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
         mm.header_dir = 'jsi'
     end
+
+     s.subspec 'Metal' do |mm|
+        mm.vendored_frameworks = 'iOS/Angle/MetalANGLE.framework'
+     end
     
     s.resource     =  "dist/**/*"
     s.public_header_files = 'iOS/Classes/**/*.h'

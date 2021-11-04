@@ -10,6 +10,7 @@
 		89ECE884CE4B563A091D6AD3 /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 435113A53785539DAF219B19 /* libPods-Example.a */; };
 		8B3981382717FE5900172C26 /* EngineTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3981372717FE5900172C26 /* EngineTypeViewController.m */; };
 		8B96BC7227019BD6006CC52F /* SampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B96BC7127019BD6006CC52F /* SampleViewController.m */; };
+		9E19D056272BD82B009CD71D /* MetalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E19D055272BD82B009CD71D /* MetalController.m */; };
 		E2B059BF23C452BB007555C7 /* src in Resources */ = {isa = PBXBuildFile; fileRef = E2B059BE23C452BB007555C7 /* src */; };
 		E2F64CEF2399359C0006BD9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F64CEE2399359C0006BD9A /* AppDelegate.m */; };
 		E2F64CF22399359C0006BD9A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F64CF12399359C0006BD9A /* SceneDelegate.m */; };
@@ -28,6 +29,8 @@
 		8B96BC7027019BD6006CC52F /* SampleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleViewController.h; sourceTree = "<group>"; };
 		8B96BC7127019BD6006CC52F /* SampleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleViewController.m; sourceTree = "<group>"; };
 		8CBFE74FB341E5BB3349F209 /* Pods-TemplateLibrary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateLibrary.debug.xcconfig"; path = "Target Support Files/Pods-TemplateLibrary/Pods-TemplateLibrary.debug.xcconfig"; sourceTree = "<group>"; };
+		9E19D054272BD82B009CD71D /* MetalController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalController.h; sourceTree = "<group>"; };
+		9E19D055272BD82B009CD71D /* MetalController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetalController.m; sourceTree = "<group>"; };
 		E2B059BE23C452BB007555C7 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../bundle/src; sourceTree = "<group>"; };
 		E2F64CEA2399359C0006BD9A /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F64CED2399359C0006BD9A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -89,6 +92,8 @@
 				E2F64CEE2399359C0006BD9A /* AppDelegate.m */,
 				8B3981362717FE5900172C26 /* EngineTypeViewController.h */,
 				8B3981372717FE5900172C26 /* EngineTypeViewController.m */,
+				9E19D054272BD82B009CD71D /* MetalController.h */,
+				9E19D055272BD82B009CD71D /* MetalController.m */,
 				E2F64CF02399359C0006BD9A /* SceneDelegate.h */,
 				E2F64CF12399359C0006BD9A /* SceneDelegate.m */,
 				E2F64CF92399359E0006BD9A /* Assets.xcassets */,
@@ -122,6 +127,7 @@
 				E2F64CE72399359C0006BD9A /* Frameworks */,
 				E2F64CE82399359C0006BD9A /* Resources */,
 				6AD83C2F33B6B646C36014B0 /* [CP] Copy Pods Resources */,
+				C9836D49BA190AB3EDC81715 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -217,9 +223,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E2F64D0B2399FFB20006BD9A /* Package JS Bundle */ = {
+		C9836D49BA190AB3EDC81715 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E2F64D0B2399FFB20006BD9A /* Package JS Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -231,7 +254,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Type a script or drag a script file from your workspace to insert its path.\n\nexport NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"  # This loads nvm\n[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"  # This loads nvm bash_completion\n\ncd ../ && npm run build\n";
 		};
@@ -245,6 +268,7 @@
 				E2F64CEF2399359C0006BD9A /* AppDelegate.m in Sources */,
 				E2F64D002399359E0006BD9A /* main.m in Sources */,
 				8B96BC7227019BD6006CC52F /* SampleViewController.m in Sources */,
+				9E19D056272BD82B009CD71D /* MetalController.m in Sources */,
 				E2F64CF22399359C0006BD9A /* SceneDelegate.m in Sources */,
 				8B3981382717FE5900172C26 /* EngineTypeViewController.m in Sources */,
 			);
@@ -380,14 +404,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7EE2RX3L3P;
+				DEVELOPMENT_TEAM = N96TB86JA3;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = "$(SRCROOT)/App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = pub.doric.dangle.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = pub.doric.dangle.iosDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -399,14 +423,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7EE2RX3L3P;
+				DEVELOPMENT_TEAM = N96TB86JA3;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = "$(SRCROOT)/App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = pub.doric.dangle.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = pub.doric.dangle.iosDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

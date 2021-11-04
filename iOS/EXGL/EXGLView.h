@@ -2,6 +2,7 @@
 
 #import <EXGL_CPP/UEXGL.h>
 #import <EXGL/EXGLContext.h>
+
 #import <EXGL/EXGLObjectManager.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // "protected"
 @property (nonatomic, strong, nullable) EXGLContext *glContext;
-@property (nonatomic, strong, nullable) EAGLContext *uiEaglCtx;
+@property (nonatomic, strong, nullable) MGLContext *uiEaglCtx;
 
 @property (nonatomic, copy) void (^onSurfaceAvailable)(int width, int height);
 
