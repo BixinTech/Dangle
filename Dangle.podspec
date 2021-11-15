@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
     s.license          = { :type => 'Apache-2.0', :file => 'LICENSE' }
     s.author           = { 'xxx' => 'xxx@xxx' }
     s.source           = { :git => 'git@xxx', :tag => s.version.to_s }
-    s.frameworks = 'OpenGLES'
 
     s.compiler_flags = '-x objective-c++ -std=c++1z -fno-aligned-allocation'
   
