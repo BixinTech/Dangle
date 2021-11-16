@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
     s.license          = { :type => 'Apache-2.0', :file => 'LICENSE' }
     s.author           = { 'xxx' => 'xxx@xxx' }
     s.source           = { :git => 'git@xxx', :tag => s.version.to_s }
-    s.frameworks = 'OpenGLES'
 
     s.compiler_flags = '-x objective-c++ -std=c++1z -fno-aligned-allocation'
   
@@ -32,6 +31,10 @@ Pod::Spec.new do |s|
         mm.source_files = 'common/jsi/jsi.h', 'common/jsi/jsi.cpp', 'common/jsi/jsi.cpp', 'common/jsi/instrumentation.h', 'common/jsi/jsi-inl.h', 'common/jsi/jsilib.h'
         mm.header_dir = 'jsi'
     end
+
+     s.subspec 'Metal' do |mm|
+        mm.vendored_frameworks = 'iOS/Angle/MetalANGLE.framework'
+     end
     
     s.resource     =  "dist/**/*"
     s.public_header_files = 'iOS/Classes/**/*.h'

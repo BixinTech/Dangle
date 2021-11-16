@@ -1,9 +1,7 @@
 // Copyright 2016-present 650 Industries. All rights reserved.
 
 #import <EXGL/EXGLContext.h>
-
-#include <OpenGLES/ES3/gl.h>
-#include <OpenGLES/ES3/glext.h>
+#include <MetalANGLE/GLES2/gl2.h>
 
 #include "DangleSingleton.h"
 
@@ -25,7 +23,7 @@
 
     _objectManager = objectManager;
     _glQueue = dispatch_queue_create("host.exp.gl", DISPATCH_QUEUE_SERIAL);
-    _eaglCtx = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3] ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    _eaglCtx = [[MGLContext alloc] initWithAPI:kMGLRenderingAPIOpenGLES3] ?: [[MGLContext alloc] initWithAPI:kMGLRenderingAPIOpenGLES2];
   }
   return self;
 }
@@ -35,17 +33,17 @@
   return _contextId != 0;
 }
 
-- (EAGLContext *)createSharedEAGLContext
+- (MGLContext *)createSharedEAGLContext
 {
-  return [[EAGLContext alloc] initWithAPI:[_eaglCtx API] sharegroup:[_eaglCtx sharegroup]];
+  return [[MGLContext alloc] initWithAPI:[_eaglCtx API] sharegroup:[_eaglCtx sharegroup]];
 }
 
-- (void)runInEAGLContext:(EAGLContext*)context callback:(void(^)(void))callback
+- (void)runInEAGLContext:(MGLContext *)context callback:(void(^)(void))callback
 {
-  [EAGLContext setCurrentContext:context];
+  [MGLContext setCurrentContext:context forLayer:self.layer];
   callback();
   glFlush();
-  [EAGLContext setCurrentContext:nil];
+  [MGLContext setCurrentContext:nil];
 }
 
 - (void)runAsync:(void(^)(void))callback

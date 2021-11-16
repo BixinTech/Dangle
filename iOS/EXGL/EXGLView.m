@@ -2,11 +2,10 @@
 
 #import <EXGL/EXGLView.h>
 #import <EXGL/EXGLContext.h>
-
-#include <OpenGLES/ES2/glext.h>
-#include <OpenGLES/ES3/gl.h>
-#include <OpenGLES/ES3/glext.h>
-
+#define GL_GLEXT_PROTOTYPES 1
+#import <MetalANGLE/MGLKit.h>
+#include <MetalANGLE/GLES2/gl2ext.h>
+#include <MetalANGLE/GLES3/gl3.h>
 #define STRINGIZE(x) #x
 #define STRINGIZE2(x) STRINGIZE(x)
 #define SHADER_STRING(text) @ STRINGIZE2(text)
@@ -43,7 +42,7 @@ static EXGLObjectManager* _objectManager = nil;
 
 // Specify that we want this UIView to be backed by a CAEAGLLayer
 + (Class)layerClass {
-  return [CAEAGLLayer class];
+  return [MGLLayer class];
 }
 
 - (instancetype)init
@@ -56,18 +55,16 @@ static EXGLObjectManager* _objectManager = nil;
     self.contentScaleFactor = [UIScreen mainScreen].scale;
     
     // Initialize properties of our backing CAEAGLLayer
-    CAEAGLLayer *eaglLayer = (CAEAGLLayer *) self.layer;
+    MGLLayer *eaglLayer = (MGLLayer *) self.layer;
     eaglLayer.opaque = YES;
-    eaglLayer.drawableProperties = @{
-      kEAGLDrawablePropertyRetainedBacking: @(YES),
-      kEAGLDrawablePropertyColorFormat: kEAGLColorFormatRGBA8,
-    };
-
+    eaglLayer.retainedBacking = YES;
+    eaglLayer.drawableColorFormat = MGLDrawableColorFormatRGBA8888;
+    eaglLayer.contentsScale = self.contentScaleFactor;
     // Initialize GL context
     _glContext = [[EXGLContext alloc] initWithDelegate:self andObjectManager:EXGLView.objectManager];
     _uiEaglCtx = [_glContext createSharedEAGLContext];
     [_glContext initialize:nil];
-
+    _glContext.layer = eaglLayer;
     // View buffers will be created on layout event
     _msaaFramebuffer = _msaaRenderbuffer = _viewFramebuffer = _viewColorbuffer = _viewDepthStencilbuffer = 0;
     
@@ -104,7 +101,7 @@ static EXGLObjectManager* _objectManager = nil;
                           height:self.contentScaleFactor * self.frame.size.height];
 
   _isLayouted = YES;
-  [self maybeCallSurfaceCreated];
+//  [self maybeCallSurfaceCreated];
 }
 
 - (void)runOnUIThread:(void(^)(void))callback
@@ -174,7 +171,8 @@ static EXGLObjectManager* _objectManager = nil;
     
     [self runOnUIThread:^{
       glBindRenderbuffer(GL_RENDERBUFFER, self->_viewColorbuffer);
-      [self->_uiEaglCtx renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
+//      [self->_uiEaglCtx renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
+//      [self->_uiEaglCtx present:(MGLLayer *)self.layer];
     }];
     
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -249,9 +247,13 @@ static EXGLObjectManager* _objectManager = nil;
       // bind renderbuffer and present it on the layer
       [_glContext runInEAGLContext:_uiEaglCtx callback:^{
         glBindRenderbuffer(GL_RENDERBUFFER, self->_viewColorbuffer);
-        [self->_uiEaglCtx presentRenderbuffer:GL_RENDERBUFFER];
+//        [self->_uiEaglCtx presentRenderbuffer:GL_RENDERBUFFER];
+        MGLLayer *layer = (MGLLayer *)self.layer;
+        [MGLContext setCurrentContext:self.uiEaglCtx forLayer:layer];
+        glBindFramebuffer(GL_FRAMEBUFFER, self->_viewFramebuffer);
+        [self.uiEaglCtx present:layer];
       }];
-      
+
       // mark renderbuffer as presented
       _renderbufferPresented = YES;
     }
@@ -275,7 +277,7 @@ static EXGLObjectManager* _objectManager = nil;
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _viewFramebuffer);
     
     // glBlitFramebuffer works only on OpenGL ES 3.0, so we need a fallback to Apple's extension for OpenGL ES 2.0
-    if (_glContext.eaglCtx.API == kEAGLRenderingAPIOpenGLES3) {
+    if (_glContext.eaglCtx.API == kMGLRenderingAPIOpenGLES3) {
       glBlitFramebuffer(0, 0, _layerWidth, _layerHeight, 0, 0, _layerWidth, _layerHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
     } else {
       glResolveMultisampleFramebufferAPPLE();
